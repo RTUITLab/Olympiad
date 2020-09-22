@@ -1,0 +1,6 @@
+[submodule "Olympiad-Back"]
+	path = Olympiad-Back
+	url = https://github.com/RTUITLab/Olympiad-Back.git
+[submodule "Olympiad-Front"]
+	path = Olympiad-Front
+	url = https://github.com/RTUITLab/Olympiad-Front.git
