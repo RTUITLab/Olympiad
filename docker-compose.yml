@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  proxy:
+    image: rtuitlab/olympiad-proxy
+    ports:
+      - 5500:5500
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "200k"
+          max-file: "10"
