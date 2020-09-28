@@ -44,32 +44,37 @@ if (HasArgument("rebuild"))
       .IsDependentOn("BuildAll");
 }
 
-dockerBuildTask.Does(() =>
-{
-   var settings = new DockerComposeBuildSettings {
-      Files = new []{
+string[] dockerComposeFiles = new []{
          "docker-compose.yml",
          "docker-compose.override.yml",
          "Olympiad-Back/docker-compose.yml",
          "Olympiad-Back/docker-compose.override.yml",
          "Olympiad-Front/docker-compose.yml",
          "Olympiad-Front/docker-compose.override.yml" 
-      }
+      };
+
+dockerBuildTask.Does(() =>
+{
+   var settings = new DockerComposeBuildSettings {
+      Files = dockerComposeFiles
    };
    DockerComposeBuild(settings);
+});
+
+Task("DockerPull")
+   .Does(() =>
+{
+   var settings = new DockerComposePullSettings {
+      Files = dockerComposeFiles
+   };
+   DockerComposePull(settings);
 });
 
 Task("DockerUp")
    .Does(() =>
 {
    var settings = new DockerComposeUpSettings {
-      Files = new []{
-         "docker-compose.yml",
-         "Olympiad-Back/docker-compose.yml",
-         "Olympiad-Back/docker-compose.override.yml",
-         "Olympiad-Front/docker-compose.yml",
-         "Olympiad-Front/docker-compose.override.yml" 
-      },
+      Files = dockerComposeFiles,
       DetachedMode = true
    };
    DockerComposeUp(settings);
