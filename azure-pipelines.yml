@@ -1,0 +1,18 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+name: $(BuildID)-$(Build.SourceBranchName)
+
+steps:
+  - task: Docker@2
+    displayName: buildAndPush
+    inputs:
+      containerRegistry: 'rtuitlab connection by admin'
+      repository: 'rtuitlab/olympiad-proxy'
+      command: 'buildAndPush'
+      Dockerfile: './Proxy/Dockerfile'
+      buildContext: './Proxy'
+      tags: |
+        $(Build.BuildId)
+        latest
+
