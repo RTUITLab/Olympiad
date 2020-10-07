@@ -3,9 +3,14 @@ version: "3.8"
 services:
   proxy:
     image: rtuitlab/olympiad-proxy
-    ports:
-      - 5500:5500
-    restart: on-failure
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 50M
+        reservations:
+          cpus: '0.05'
+          memory: 20M
     logging:
       driver: "json-file"
       options:

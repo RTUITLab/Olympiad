@@ -3,16 +3,40 @@ pool:
 
 name: $(BuildID)-$(Build.SourceBranchName)
 
-steps:
-  - task: Docker@2
-    displayName: buildAndPush
-    inputs:
-      containerRegistry: 'rtuitlab connection by admin'
-      repository: 'rtuitlab/olympiad-proxy'
-      command: 'buildAndPush'
-      Dockerfile: './Proxy/Dockerfile'
-      buildContext: './Proxy'
-      tags: |
-        $(Build.BuildId)
-        latest
-
+stages:
+- stage: build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - job: packProxy
+      displayName: Pack docker image
+      steps:
+        - task: Docker@2
+          displayName: buildAndPush
+          inputs:
+            containerRegistry: 'rtuitlab connection by admin'
+            repository: 'rtuitlab/olympiad-proxy'
+            command: 'buildAndPush'
+            Dockerfile: './Proxy/Dockerfile'
+            buildContext: './Proxy'
+            tags: |
+              $(Build.BuildId)
+              latest
+- stage: deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - deployment: DeployProxy
+      displayName: Deploy proxy
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      environment: 'production'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: none
+              - task: SSH@0
+                inputs:
+                  sshEndpoint: 'swarm manager'
+                  runOptions: 'commands'
+                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) olympiad_proxy'
+                  readyTimeout: '20000'

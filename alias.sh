@@ -1,0 +1,2 @@
+alias odc='docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml -f .\Olympiad-Back\docker-compose.yml -f .\Olympiad-Back\docker-compose.override.yml -f .\Olympiad-Front\docker-compose.yml -f .\Olympiad-Front\docker-compose.override.yml'
+alias odcs='docker-compose -f .\docker-compose.yml -f .\Olympiad-Back\docker-compose.yml -f .\Olympiad-Back\docker-compose.production.yml -f .\Olympiad-Front\docker-compose.yml'
