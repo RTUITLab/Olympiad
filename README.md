@@ -7,11 +7,7 @@
 
 ## Run from docker hub images
 
-To work using `docker-compose` you should use all docker-compose.yml files
-```bash
-docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml -f .\Olympiad-Back\docker-compose.yml -f .\Olympiad-Back\docker-compose.override.yml -f .\Olympiad-Front\docker-compose.yml -f .\Olympiad-Front\docker-compose.override.yml COMMAND
-```
-Or use alias `odc` (**o**lympiad-**d**ocker-**c**ompose)
+To work using `docker-compose` you should use alias `odc` (**o**lympiad-**d**ocker-**c**ompose)
 ```bash
 # On Windows
 . .\alias.ps1
@@ -42,11 +38,11 @@ Use Cake wrapper to build all parts
 ### Build docker images
 
 ```bash
-./build.ps1 -t DockerBuild
+odc build --no-cache
 ```
 
 ### Start docker containers
 
 ```bash
-./build.ps1 -t DockerUp
+odc up -d
 ```
