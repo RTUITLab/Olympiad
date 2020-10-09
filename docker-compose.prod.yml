@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  proxy:
+    networks:
+    - net
+  api:
+    networks:
+    - net
+  front:
+    networks:
+    - net
+  executor:
+    networks:
+    - net
+  rabbitmq:
+    networks:
+    - net
+
+networks:
+  net:
+    driver: overlay
