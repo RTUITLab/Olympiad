@@ -2,15 +2,15 @@ version: "3.8"
 
 services:
   proxy:
+    environment:
+    - BASIC_AUTH_USERNAME=${BASIC_AUTH_USERNAME?Create basic auth username for admin service}
+    - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD?Create basic auth password for admin service}
     networks:
     - net
   api:
     networks:
     - net
   admin:
-    environment:
-      - BASIC_AUTH_USERNAME=${BASIC_AUTH_USERNAME?Create basic auth username for admin service}
-      - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD?Create basic auth password for admin service}
     networks:
     - net
   front:
