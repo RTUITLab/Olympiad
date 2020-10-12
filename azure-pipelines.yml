@@ -31,6 +31,16 @@ stages:
       environment: 'production'
       strategy:
         runOnce:
+          on:
+            failure:
+              steps:
+                - download: none
+                - task: SSH@0
+                  inputs:
+                    sshEndpoint: 'swarm manager'
+                    runOptions: 'commands'
+                    commands: 'docker service rollback olympiad_proxy'
+                    readyTimeout: '20000'
           deploy:
             steps:
               - download: none
