@@ -7,6 +7,14 @@ services:
     - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD?Create basic auth password for admin service}
     networks:
     - net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 50M
+        reservations:
+          cpus: '0.05'
+          memory: 20M
   api:
     networks:
     - net

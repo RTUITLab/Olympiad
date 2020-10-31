@@ -19,6 +19,13 @@ Task("BuildFront")
    NpmRunScript("buildToDeploy", settings => { settings.FromPath("Olympiad-Front"); });
 });
 
+Task("BuildFrontTeacher")
+.Does(() => {
+   NpmCi(settings => { settings.FromPath("Olympiad-Front-Teacher"); });
+   NpmRunScript("fillDefaultProdEnv", settings => { settings.FromPath("Olympiad-Front-Teacher"); });
+   NpmRunScript("buildToDeploy", settings => { settings.FromPath("Olympiad-Front-Teacher"); });
+});
+
 
 Task("BuildBack")
 .Does(() => {
@@ -27,6 +34,7 @@ Task("BuildBack")
 
 Task("BuildAll")
    .IsDependentOn("BuildFront")
+   .IsDependentOn("BuildFrontTeacher")
    .IsDependentOn("BuildBack")
    .Does(() =>
 {

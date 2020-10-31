@@ -9,3 +9,8 @@ services:
     ports:
       - 5500:5500
     restart: on-failure
+  front-teacher:
+    build: Olympiad-Front-Teacher/deploy
+    restart: on-failure
+    ports:
+      - 5504:5504
