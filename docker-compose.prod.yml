@@ -24,6 +24,9 @@ services:
   front:
     networks:
     - net
+  front-teacher:
+    networks:
+    - net
   executor:
     networks:
     - net
