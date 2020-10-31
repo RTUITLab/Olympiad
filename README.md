@@ -7,7 +7,7 @@
 
 ## Run from docker hub images
 
-To work using `docker-compose` you should use alias `odc` (**o**lympiad-**d**ocker-**c**ompose)
+To work using `docker-compose` you should use alias `odc` (**O**lympiad-**D**ocker-**C**ompose)
 ```bash
 # On Windows
 . .\alias.ps1

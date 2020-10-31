@@ -39,7 +39,7 @@ stages:
                   inputs:
                     sshEndpoint: 'swarm manager'
                     runOptions: 'commands'
-                    commands: 'docker service rollback olympiad_proxy'
+                    commands: 'docker service rollback mycode_proxy'
                     readyTimeout: '20000'
           deploy:
             steps:
@@ -48,5 +48,5 @@ stages:
                 inputs:
                   sshEndpoint: 'swarm manager'
                   runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) olympiad_proxy'
+                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) mycode_proxy'
                   readyTimeout: '20000'
