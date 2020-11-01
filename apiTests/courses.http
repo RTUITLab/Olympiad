@@ -1,0 +1,115 @@
+@baseUrl = http://127.0.0.1:5501
+
+
+# @name login
+POST {{baseUrl}}/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "login": "admin@localhost.ru",
+  "password": "VeryStrongPass1"
+}
+
+
+### 
+@authToken = {{login.response.body.token}}
+
+
+
+# @name getGroups
+GET {{baseUrl}}/api/groups
+Authorization: Bearer {{authToken}}
+
+###
+GET {{baseUrl}}/api/groups/{{getGroups.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name getFullGroup
+GET {{baseUrl}}/api/groups/{{getGroups.response.body.$[0].id}}/full
+Authorization: Bearer {{authToken}}
+
+###
+POST {{baseUrl}}/api/groups/{{getFullGroup.response.body.id}}/join/{{getFullGroup.response.body.inviteToken}}
+Authorization: Bearer {{authToken}}
+
+
+###
+POST {{baseUrl}}/api/groups
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Группа {{$randomInt 50 100}}"
+}
+
+### @name getCourses
+GET {{baseUrl}}/api/courses
+Authorization: Bearer {{authToken}}
+
+###
+GET {{baseUrl}}/api/courses/{{getCourses.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+
+###
+PUT {{baseUrl}}/api/courses/{{getCourses.response.body.$[0].id}}/addgroup/{{getGroups.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+
+###
+PUT {{baseUrl}}/api/courses/{{getCourses.response.body.$[0].id}}/removegroup/{{getGroups.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+
+###
+POST {{baseUrl}}/api/courses
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+    "Title": "Программирование на Java {{$randomInt 2020 2025}} год"
+}
+
+###
+# @name getChallenges
+GET {{baseUrl}}/api/challenges
+Authorization: Bearer {{authToken}}
+
+###
+POST {{baseUrl}}/api/challenges
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Test public",
+  "description": "desc",
+  "cChallengeAccessType": 0
+}
+
+###
+PUT {{baseUrl}}/api/challenges/{{getChallenges.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Test public",
+  "description": "desc",
+  "challengeAccessType": 1,
+  "groupId": "{{getFullGroup.response.body.id}}"
+}
+
+###
+GET {{baseUrl}}/api/exercises?challengeId={{getChallenges.response.body.$[0].id}}
+Authorization: Bearer {{authToken}}
+
+
+
+###
+POST {{baseUrl}}/api/exercises
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "challengeId": "{{getChallenges.response.body.$[0].id}}",
+  "exerciseName": "exercise name",
+  "exerciseTask": "task"
+}
