@@ -25,6 +25,11 @@ odc pull
 ```bash
 odc up -d
 ```
+Services and default users
+| Service       | Url                          | User               | Password            |
+| ------------- | ---------------------------- | ------------------ | ------------------- |
+| User frontend | http://localhost:5500        | admin@localhost.ru | VeryStrongPass1     |
+| Admin panel   | http://localhost:5500/admin/ | admin              | VeryStrongPassword1 |
 
 ## Build
 
