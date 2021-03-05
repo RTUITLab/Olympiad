@@ -1,3 +1,4 @@
 tools
 stack.yml
 prodEnv.ps1
+environment.ps1

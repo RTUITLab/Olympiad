@@ -51,3 +51,26 @@ odc build --no-cache
 ```bash
 odc up -d
 ```
+
+### Deploy to production
+> Using PowerShell
+
+Create file `environment.ps1` (already in `.gitignore`)
+```powershell
+$Env:JWT_SECRET_KEY="key for jwt"
+$Env:SECRET_ADMIN_KEY="adminservice  key for api requests"
+$Env:OLYMPIAD_DOMAIN="target domain"
+$Env:OLYMPIAD_PRIVATE_REGISTRY_ADDRESS="your private registry for executor domain"
+$Env:OLYMPIAD_PRIVATE_REGISTRY_LOGIN="your private registry for executor login"
+$Env:OLYMPIAD_PRIVATE_REGISTRY_PASSWORD="your private registry for executor password"
+$Env:BASIC_AUTH_USERNAME="login for admin service"
+$Env:BASIC_AUTH_PASSWORD="password for admin service"
+$Env:POSTGRES_CONNECTION_STRING="Connection string for peoduction database"
+```
+
+Invoke
+```powershell
+. .\environment.ps1 ;; .\genStack.ps1
+```
+
+Use `stack.yml` file to publish service to `docker swarm`
