@@ -19,6 +19,9 @@ services:
   executor:
     networks:
     - net
+  results-viewer:
+    networks:
+    - net
   rabbitmq:
     networks:
     - net

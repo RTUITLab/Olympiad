@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   proxy:
-    image: rtuitlab/olympiad-proxy
+    image: rtuitlab/olympiad-proxy:${OLYMPIAD_SERVICE_TAG-latest}
     deploy:
       resources:
         limits:
