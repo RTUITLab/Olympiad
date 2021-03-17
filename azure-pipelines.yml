@@ -1,11 +1,43 @@
+trigger:
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+
 pool:
   vmImage: 'ubuntu-latest'
 
 name: $(BuildID)-$(Build.SourceBranchName)
 
+variables:
+  ${{ if notIn(variables['Build.SourceBranch'], 'refs/heads/master', 'refs/tags/develop') }}:
+    buildImage: false
+    deployService: false
+    deployEnvironment: 'no'
+    imageTags: 'no'
+    proxyServiceName: 'no'
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/tags/develop') }}:
+    buildImage: true
+    deployService: true
+    deployEnvironment: development
+    imageTags: |
+      $(Build.BuildId)
+      develop
+    proxyServiceName: olympiad-dev_proxy
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    buildImage: true
+    deployService: true
+    deployEnvironment: production
+    imageTags: |
+      $(Build.BuildId)
+      latest
+    proxyServiceName: olympiad_proxy
+
 stages:
 - stage: build
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), ${{variables.buildImage}})
   jobs:
     - job: packProxy
       displayName: Pack docker image
@@ -18,17 +50,15 @@ stages:
             command: 'buildAndPush'
             Dockerfile: './Proxy/Dockerfile'
             buildContext: './Proxy'
-            tags: |
-              $(Build.BuildId)
-              latest
+            tags: ${{variables.imageTags}}
 - stage: deploy
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), ${{variables.deployService}})
   jobs:
     - deployment: DeployProxy
       displayName: Deploy proxy
       pool:
-        vmImage: 'Ubuntu-16.04'
-      environment: 'production'
+        vmImage: 'ubuntu-latest'
+      environment: ${{variables.deployEnvironment}}
       strategy:
         runOnce:
           on:
@@ -39,7 +69,7 @@ stages:
                   inputs:
                     sshEndpoint: 'swarm manager'
                     runOptions: 'commands'
-                    commands: 'docker service rollback olympiad_proxy'
+                    commands: 'docker service rollback ${{variables.apiServiceName}}'
                     readyTimeout: '20000'
           deploy:
             steps:
@@ -48,5 +78,5 @@ stages:
                 inputs:
                   sshEndpoint: 'swarm manager'
                   runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) olympiad_proxy'
+                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) ${{variables.apiServiceName}}'
                   readyTimeout: '20000'
