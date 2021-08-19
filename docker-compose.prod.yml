@@ -25,6 +25,9 @@ services:
   results-viewer:
     networks:
     - net
+  control-panel:
+    networks:
+    - net
   pdf-printer:
     networks:
     - net
