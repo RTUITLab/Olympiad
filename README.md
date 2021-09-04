@@ -1,9 +1,19 @@
 # Olympiad
 
-## Requirements
 
-* [.Net Core 3.1](https://dotnet.microsoft.com/download)
-* [Node.JS 12+](https://nodejs.org/en/)
+## Current architecture
+
+Now system uses `Admin panel` for managing all items and `Results viewer` for viewing results. That systems are available via `basic auth`, and allows full access for one login/password pair.
+
+![current architecture](docs/architecture.png)
+
+
+## Work in progress architecture
+
+In new system `Admin panel` and `Results viewer`, based on `Blazor server` will be replaced with `Control panel`, based on `Blazor WASM`. Access to managing and viewing results will be based on users account and JWT.
+
+![wip architecture](docs/wip.png)
+
 
 ## Run from docker hub images
 
@@ -32,6 +42,11 @@ Services and default users
 | Admin panel   | http://localhost:5500/admin/ | admin              | VeryStrongPassword1 |
 
 ## Build
+
+## Requirements
+
+* [.Net Core 3.1](https://dotnet.microsoft.com/download)
+* [Node.JS 12+](https://nodejs.org/en/)
 
 Use Cake wrapper to build all parts
 
