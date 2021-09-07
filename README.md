@@ -3,14 +3,14 @@
 
 ## Current architecture
 
-Now system uses `Admin panel` for managing all items and `Results viewer` for viewing results. That systems are available via `basic auth`, and allows full access for one login/password pair.
+Now system uses `Admin panel` for managing all items and `Results viewer` for viewing results. Those services are available via `basic auth`, and allow full access to one login/password pair.
 
 ![current architecture](docs/architecture.png)
 
 
 ## Work in progress architecture
 
-In new system `Admin panel` and `Results viewer`, based on `Blazor server` will be replaced with `Control panel`, based on `Blazor WASM`. Access to managing and viewing results will be based on users account and JWT.
+In the new system `Admin panel` and `Results viewer` based on `Blazor server` will be replaced with `Control panel` based on `Blazor WASM`. Access to managing and viewing results will be based on users' account and JWT.
 
 ![wip architecture](docs/wip.png)
 
