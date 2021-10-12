@@ -2,3 +2,5 @@ tools
 stack.yml
 environment.ps1
 environment.prod.ps1
+
+environment.dev.ps1
