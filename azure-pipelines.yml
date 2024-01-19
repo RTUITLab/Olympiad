@@ -51,32 +51,32 @@ stages:
             Dockerfile: './Proxy/Dockerfile'
             buildContext: './Proxy'
             tags: ${{variables.imageTags}}
-- stage: deploy
-  condition: and(succeeded(), ${{variables.deployService}})
-  jobs:
-    - deployment: DeployProxy
-      displayName: Deploy proxy
-      pool:
-        vmImage: 'ubuntu-latest'
-      environment: ${{variables.deployEnvironment}}
-      strategy:
-        runOnce:
-          on:
-            failure:
-              steps:
-                - download: none
-                - task: SSH@0
-                  inputs:
-                    sshEndpoint: 'swarm manager'
-                    runOptions: 'commands'
-                    commands: 'docker service rollback ${{variables.proxyServiceName}}'
-                    readyTimeout: '20000'
-          deploy:
-            steps:
-              - download: none
-              - task: SSH@0
-                inputs:
-                  sshEndpoint: 'swarm manager'
-                  runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) ${{variables.proxyServiceName}}'
-                  readyTimeout: '20000'
+# - stage: deploy
+#   condition: and(succeeded(), ${{variables.deployService}})
+#   jobs:
+#     - deployment: DeployProxy
+#       displayName: Deploy proxy
+#       pool:
+#         vmImage: 'ubuntu-latest'
+#       environment: ${{variables.deployEnvironment}}
+#       strategy:
+#         runOnce:
+#           on:
+#             failure:
+#               steps:
+#                 - download: none
+#                 - task: SSH@0
+#                   inputs:
+#                     sshEndpoint: 'swarm manager'
+#                     runOptions: 'commands'
+#                     commands: 'docker service rollback ${{variables.proxyServiceName}}'
+#                     readyTimeout: '20000'
+#           deploy:
+#             steps:
+#               - download: none
+#               - task: SSH@0
+#                 inputs:
+#                   sshEndpoint: 'swarm manager'
+#                   runOptions: 'commands'
+#                   commands: 'docker service update --image rtuitlab/olympiad-proxy:$(Build.BuildId) ${{variables.proxyServiceName}}'
+#                   readyTimeout: '20000'
