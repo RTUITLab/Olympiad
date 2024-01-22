@@ -73,19 +73,25 @@ odc up -d
 Create file `environment.ps1` (already in `.gitignore`)
 ```powershell
 $Env:JWT_SECRET_KEY="key for jwt"
-$Env:SECRET_ADMIN_KEY="adminservice  key for api requests"
 $Env:OLYMPIAD_DOMAIN="target domain"
 $Env:OLYMPIAD_PRIVATE_REGISTRY_ADDRESS="your private registry for executor domain"
 $Env:OLYMPIAD_PRIVATE_REGISTRY_LOGIN="your private registry for executor login"
 $Env:OLYMPIAD_PRIVATE_REGISTRY_PASSWORD="your private registry for executor password"
-$Env:BASIC_AUTH_USERNAME="login for admin service"
-$Env:BASIC_AUTH_PASSWORD="password for admin service"
-$Env:POSTGRES_CONNECTION_STRING="Connection string for peoduction database"
+$Env:RABBITMQ_PASSWORD="password for internal communication in rabbitmq"
+$Env:GENERATE_USER_EMAIL_DOMAIN="domain to generate user accounts, like localhost.ru"
+$Env:POSTGRES_CONNECTION_STRING="Connection string for production database"
+$Env:EXECUTOR_USER_LOGIN="executor account login"
+$Env:EXECUTOR_USER_PASSWORD="executor account password. CHANGE PASSWORD AFTER AUTO CREATING!"
+$Env:S3_SERVICE_URL="s3 service address like storage.yandexcloud.net"
+$Env:S3_SERVICE_ACCESS_KEY_ID="s3 key id"
+$Env:S3_SERVICE_SECRET_ACCESS_KEY="s3 key secret"
+$Env:S3_SERVICE_FORCE_PATH_STYLE="true if local like zenko, false id provider accepts bucket as subdomain"
+$Env:S3_SERVICE_BUCKET_NAME="s3 bucket name"
 ```
 
 Invoke
 ```powershell
-. .\environment.ps1 ;; .\genStack.ps1
+. .\alias.ps1 ;; . .\environment.ps1 ;; .\genStack.ps1
 ```
 
 Use `stack.yml` file to publish service to `docker swarm`

@@ -2,18 +2,9 @@ version: "3.8"
 
 services:
   proxy:
-    environment:
-    - BASIC_AUTH_USERNAME_ADMIN=${BASIC_AUTH_USERNAME_ADMIN?Create basic auth username for admin service BASIC_AUTH_USERNAME_ADMIN}
-    - BASIC_AUTH_PASSWORD_ADMIN=${BASIC_AUTH_PASSWORD_ADMIN?Create basic auth password for admin service BASIC_AUTH_PASSWORD_ADMIN}
-
-    - BASIC_AUTH_USERNAME_RESULTS_VIEWER=${BASIC_AUTH_USERNAME_RESULTS_VIEWER?Create basic auth username for results viewer service BASIC_AUTH_USERNAME_RESULTS_VIEWER}
-    - BASIC_AUTH_PASSWORD_RESULTS_VIEWER=${BASIC_AUTH_PASSWORD_RESULTS_VIEWER?Create basic auth password for results viewer service BASIC_AUTH_PASSWORD_RESULTS_VIEWER}
     networks:
     - net
   api:
-    networks:
-    - net
-  admin:
     networks:
     - net
   front:
@@ -22,13 +13,7 @@ services:
   executor:
     networks:
     - net
-  results-viewer:
-    networks:
-    - net
   control-panel:
-    networks:
-    - net
-  pdf-printer:
     networks:
     - net
   rabbitmq:

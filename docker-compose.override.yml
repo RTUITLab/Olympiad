@@ -3,15 +3,6 @@ version: "3.8"
 services:
   proxy:
     build: Proxy
-    environment:
-      - BASIC_AUTH_USERNAME=admin
-      - BASIC_AUTH_PASSWORD=VeryStrongPassword1
-      - BASIC_AUTH_USERNAME_ADMIN=admin
-      - BASIC_AUTH_PASSWORD_ADMIN=VeryStrongPassword1
-
-      - BASIC_AUTH_USERNAME_RESULTS_VIEWER=results-viewer
-      - BASIC_AUTH_PASSWORD_RESULTS_VIEWER=VeryStrongPassword1
-
     ports:
       - 5500:5500
     restart: on-failure
